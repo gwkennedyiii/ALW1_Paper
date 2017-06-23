@@ -64,18 +64,19 @@
 Online harassment has been a problem to a greater
 or lesser extent since the early days of the internet.
 Previous work has applied anti-spam techniques
-like machine-learning based text classification ~\cite{Reynolds:2011} to
+like machine learning based text classification 
+~\cite{Reynolds:2011} to
 detecting harassing messages. However, existing
 public datasets are limited in size, with labels of
 varying quality.
 
-The \#HackHarassment (“\#HackHarassment,”
-n.d.) initiative (an alliance of tech companies and
+The \#HackHarassment ~\cite{HH:2017} initiative 
+(an alliance of tech companies and
 NGOs devoted to fighting bullying on the internet)
 has begun to address this issue by creating a web
 tool to collect and label data, and using the tool to
 generate a large, high-quality, cross-platform dataset.
-The release of this tool is scheduled for June
+The release of this tool is scheduled for Summer
 2017. As we complete further rounds of labelling
 with a public audience, later iterations of this dataset
 will increase the available samples by at least
@@ -86,11 +87,9 @@ this paper, we introduce an improved cross-platform
 harassment dataset and a machine learning
 model built on the dataset.
 
-
 \section{Related Work}
 
-Previous work in the area by (Bayzick, Kontostathis,
-\& Edwards, 2011) showed that natural language
+Previous work in the area by ~\cite{Bayzick:2011} showed that natural language
 processing in combination with a rule-based
 system could detect bullying messages on an
 online forum, but with very poor accuracy. However,
@@ -104,8 +103,7 @@ on classical decision-tree models like J48 and
 JRIP, and k-nearest neighbors classifiers like IBk,
 as opposed to modern ensemble methods or deep
 neural-network-based approaches. In addition, Intel's
-\#HackHarassment team published work (Bastidas
-et al., 2016) showing results for harassment
+\#HackHarassment team published work ~\cite{Bastidas:2016} showing results for harassment
 detection using a variety of model types on a new
 dataset of comments and posts which their team
 had labelled.
@@ -114,12 +112,10 @@ More recently, major internet companies have
 focused efforts on combating various forms of harassment
 online. Yahoo researchers have developed
 machine learning models for detecting abusive
-language (Nobata, Tetreault, Thomas, Mehdad, \&
-Chang, 2016a) and a Google Jigsaw team partnered
+language ~\cite{Nobata:2016a} and a Google Jigsaw team partnered
 with the Wikimedia Foundation to develop
 solutions for reducing personal attacks or ‘toxic
-comments’, in Wikimedia editing (Wulczyn,
-Taraborelli, Thain, \& Dixon, 2017). Nobata outperformed
+comments’, in Wikimedia editing ~\cite{Wulczyn:2017}. Nobata outperformed
 state-of-the-art deep learning approaches
 with their supervised learning approach
 using a combination of linguistic, n-gram (including
@@ -127,13 +123,13 @@ character n-grams), syntactic (POS), and semantic
 (using comment embeddings similar to
 word2vec) features. In addition, the Yahoo team
 has released the longitudinal New Feed data set
-used in the study on (“Webscope,” n.d.). Wulczyn
+used in the study on ~\cite{Webscope:2017}. Wulczyn
 demonstrated that their machine models can perform
 as well as three human graders in identifying
 toxic comments in Wikipedia editing wars, and in
 addition released the Perspective API to enable developers
 to utilize their solution. However, see
-(Hosseini, Kannan, Zhang, \& Poovendran, 2017)
+~\cite{Hosseini:2017}
 for comments on adversarial attacks and the resultant
 fragility of the model - and other models that
 depend on token-level features. We extend these
@@ -147,10 +143,7 @@ Summer 2017.
 \section{Methods}
 
 In this work, we build upon our initial results using
-version 1.0 of our dataset see (reference: Harassment
-detection: a benchmark on the \#HackHarassment
-dataset (Bastidas, Dixon, Loo, \& Ryan,
-2016). We followed a supervised classification
+version 1.0 of our dataset ~\cite{Bastidas:2016}. We followed a supervised classification
 method that uses a data with gold-standard labeled
 comments and a set discriminating linguistic properties,
 or features, of each comment to predict the
@@ -209,7 +202,7 @@ directly from Twitter during July 2016 using a custom
 twitterbot that queried on hot-button topics as
 keywords to the Twitter API. These additional
 tweets were first labeled by our early classifier and
-then manually labeled by our team (Hart 2016).
+then manually labeled by our team ~\cite{Hart:2016}.
 
 \subsection{The Guardian}
 Comments were scraped from 15 articles covering
@@ -221,9 +214,27 @@ their content policy. Therefore, minimal or no harassing
 comments should be expected, as we confirmed
 in the dataset.
 
-Figure 1 shows that the current data set is reason-ably unbalanced overall with a ~1:4 ratio of non-harassing to harassing comments. In addition, the categories are unbalanced across source as well as category within source, such that Reddit, de-spite being only 28\% of the total comments con-tributed 56\% of the harassing comments.
+\begin{figure}
+  \includegraphics[width=\linewidth]{figure1_corpus_counts_by_source.png}
+  \caption{Corpus Comment Counts by Source}
+  \label{fig:corpus}
+\end{figure}
 
-As shown in Figure 2 and Figure 3, average agreement
+Figure \ref{fig:corpus} shows that the current data set is reason-ably unbalanced overall with a ~1:4 ratio of non-harassing to harassing comments. In addition, the categories are unbalanced across source as well as category within source, such that Reddit, de-spite being only 28\% of the total comments con-tributed 56\% of the harassing comments.
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{figure2_iaa.png}
+  \caption{Inter-annotator agreement for Hack Harassment (HH) compared to Yahoo. HH uses Krippendorf’s Alpha and Yahoo uses Kappa. Agreement is an average pairwise agreement.}
+  \label{fig:iaa}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{figure3_average_percent_agreement_amt.png}
+  \caption{Average Percent of Agreement Among Amazon Mechanical Turk (AMT) Annotators}
+  \label{fig:amt}
+\end{figure}
+
+As shown in Figure \ref{fig:iaa} and Figure \ref{fig:amt}, average agreement
 is below 90\% for the Guardian and Twitter
 surveys, with an average across all Qualtrics surveys
 only .875. This is well below what is typically
@@ -269,8 +280,7 @@ All preprocessing, training and evaluation was
 carried out in Python, using the popular SciKitLearn
 (for feature engineering and linear models)
 in combination with Numpy3 (for matrix operations)
-(Pedregosa et al., 2011; van der Walt, Colbert,
-\& Varoquaux, n.d.).
+~\cite{Pedregosa:2011, van_der_Walt:2011}.
 
 \section{Feature Selection}
 Features were generated by tokenizing each comment,
@@ -361,17 +371,14 @@ classification suggests obvious next steps. Bytelevel
 deep neural nets are capable of state-of-theart
 results on large datasets, can exploit unlabeled
 data, as described in recent work from OpenAI
-(Radford, Jozefowicz, \& Sutskever, 2017) and
+~\cite{Radford:2017} and
 have the potential to resist the "adversarial" tokens
-described in (Hosseini, Kannan, Zhang, \& Poovendran,
-2017). Using OpenAI's approach with a large,
+described in ~\cite{Hosseini:2017}. Using OpenAI's approach with a large,
 unlabeled dataset for pre-training is an obvious
 next step. A contrasting approach that requires further
 evaluation is the FastText model from Facebook's
 Advanced Research Lab, which, as described
-in (Joulin, Grave, Bojanowski, and
-Mikolov, 2016) and (Bojanowski, Grave, Joulin,
-and Mikolov, 2016), is competitive with deep convolutional
+in ~\cite{Joulin:2016} and ~\cite{Bojanowski:2016}, is competitive with deep convolutional
 neural networks and can exploit unlabeled
 data using pre-trained WordVectors, while requiring
 vastly less training time than competitive
